@@ -7,6 +7,7 @@ from pyrogram.types import Message
 import pyrogram
 from pyrogram import Client, filters
 from pyrogram.types import User, Message
+import helper
 import os
 import re
 import requests
@@ -45,16 +46,20 @@ async def pdf_url(bot: Client, m: Message):
         await m.reply_text(f"**Downloading :- **'{name}'")
         s="https://youtu.be/"+ str(data["video_id"]) 
         
-        s1=re.sub('\s+', '%20', s)
+        cmd=f'yt-dlp -o "{name}.mp4" "{s}"'
+        os.system(cmd)
+        #s1=re.sub('\s+', '%20', s)
         filename=f"{name}.mp4"
-        dl=(f'yt-dlp "{s1}"')
-        os.system(dl)
+        
+        #dl=(f'yt-dlp "{s1}"')
+        
         subprocess.run(f'ffmpeg -i "{filename}" -ss 00:00:19 -vframes 1 "{filename}.jpg"', shell=True)
         thumbnail=f"{filename}.jpg"
         dur = int(helper.duration(filename))
         
         await m.reply_video(f"{name}.mp4",caption=name,progress=progress_bar,supports_streaming=True,height=720,width=1280,thumb=thumbnail,duration=dur)
-        os.remove(f"{name}")
+        os.remove(f"{name}.mp4")
+        os.remove(f"{name}.jpg")
         
        except Exception as e:
         await m.reply_text(str(e))
