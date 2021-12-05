@@ -46,10 +46,10 @@ async def pdf_url(bot: Client, m: Message):
         await m.reply_text(f"**Downloading :- **'{name}'")
         s="https://youtu.be/"+ str(data["video_id"]) 
         
-        cmd=f'yt-dlp -o "{name}.mp4" "{s}"'
+        cmd=f'yt-dlp -o "{name}.webm" "{s}"'
         os.system(cmd)
         #s1=re.sub('\s+', '%20', s)
-        filename=f"{name}.mp4"
+        filename=f"{name}.webm"
         
         #dl=(f'yt-dlp "{s1}"')
         
@@ -57,9 +57,9 @@ async def pdf_url(bot: Client, m: Message):
         thumbnail=f"{filename}.jpg"
         dur = int(helper.duration(filename))
         
-        await m.reply_video(f"{name}.mp4",caption=name,progress=progress_bar,supports_streaming=True,height=720,width=1280,thumb=thumbnail,duration=dur)
-        os.remove(f"{name}.mp4")
-        os.remove(f"{name}.jpg")
+        await m.reply_document(f"{name}.webm",caption=name)
+        os.remove(f"{name}.webm")
+        #os.remove(f"{name}.jpg")
         
        except Exception as e:
         await m.reply_text(str(e))
