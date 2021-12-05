@@ -53,9 +53,9 @@ async def pdf_url(bot: Client, m: Message):
         
         #dl=(f'yt-dlp "{s1}"')
         
-        subprocess.run(f'ffmpeg -i "{filename}" -ss 00:00:19 -vframes 1 "{filename}.jpg"', shell=True)
-        thumbnail=f"{filename}.jpg"
-        dur = int(helper.duration(filename))
+        #subprocess.run(f'ffmpeg -i "{filename}" -ss 00:00:19 -vframes 1 "{filename}.jpg"', shell=True)
+        #thumbnail=f"{filename}.jpg"
+       # dur = int(helper.duration(filename))
         
         await m.reply_document(f"{name}.webm",caption=name)
         os.remove(f"{name}.webm")
