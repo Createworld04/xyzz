@@ -51,8 +51,9 @@ async def pdf_url(bot: Client, m: Message):
         os.system(dl)
         subprocess.run(f'ffmpeg -i "{filename}" -ss 00:00:19 -vframes 1 "{filename}.jpg"', shell=True)
         thumbnail=f"{filename}.jpg"
+        dur = int(helper.duration(filename))
         
-        await m.reply_video(f"{name}.mp4",caption=name,progress=progress_bar,supports_streaming=True,height=720,width=1280,thumb=thumbnail)
+        await m.reply_video(f"{name}.mp4",caption=name,progress=progress_bar,supports_streaming=True,height=720,width=1280,thumb=thumbnail,duration=dur)
         os.remove(f"{name}")
         
        except Exception as e:
