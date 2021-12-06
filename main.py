@@ -98,6 +98,10 @@ async def account_login(bot: Client, m: Message):
     input3 = message = await bot.listen(editable.chat.id)
     raw_text3 = input3.text
     
+    editable3= await m.reply_text("**Now send the Resolution**")
+    input4 = message = await bot.listen(editable.chat.id)
+    raw_text4 = input4.text
+    
     
     #gettting all json with diffrent topic id https://elearn.crwilladmin.com/api/v1/comp/batch-detail/881?redirectBy=mybatch&topicId=2324&token=d76fce74c161a264cf66b972fd0bc820992fe57
     
@@ -130,21 +134,29 @@ async def account_login(bot: Client, m: Message):
             link="https://www.youtube.com/embed/"+bcvid
         # await m.reply_text(link)
 
-        editable3= await m.reply_text("**Now send the Resolution**")
-        input4 = message = await bot.listen(editable.chat.id)
-        raw_text4 = input4.text
+        #editable3= await m.reply_text("**Now send the Resolution**")
+        #input4 = message = await bot.listen(editable.chat.id)
+        #raw_text4 = input4.text
+        
+        cc = f"*Title :* {lessonName}x{raw_text4}"
+        Show = f"**Downloading:-**\n```{lessonName}\nQuality - {raw_text4}```\n\n**Url :-** ```{link}```"
+        prog = await m.reply_text(Show)
 
         
         ytf=f"bestvideo[height<={raw_text4}]"
         cmd = f'yt-dlp -o "{lessonName}.mp4" -f "{ytf}+bestaudio" "{link}"'
-        os.system(cmd)
+        download_cmd = f"{cmd} -R 25 --fragment-retries 25 --external-downloader aria2c --downloader-args 'aria2c: -x 16 -j 32'"
+        os.system(download_cmd)
 
         filename = f"{lessonName}.mp4"
         subprocess.run(f'ffmpeg -i "{filename}" -ss 00:00:19 -vframes 1 "{filename}.jpg"', shell=True)
         thumbnail = f"{filename}.jpg"
+        
+        dur = int(helper.duration(filename))
 
-        await m.reply_video(f"{lessonName}.mp4",caption=lessonName, supports_streaming=True,height=720,width=1280,thumb=thumbnail)
+        await m.reply_video(f"{lessonName}.mp4",caption=cc, supports_streaming=True,height=720,width=1280,thumb=thumbnail,duration=dur)
         os.remove(f"{lessonName}.mp4")
+        await prog.delete (True)
         os.remove(f"{filename}.jpg")
         
 
