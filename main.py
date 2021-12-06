@@ -7,16 +7,17 @@ from pyromod import listen
 from pyrogram.types import Message
 import pyrogram
 from pyrogram import Client, filters
-from details import api_id, api_hash, bot_token
+
 from pyrogram.types import User, Message
 import os
 
 import requests
 bot = Client(
-    "Careerwill",
-    api_id=api_id,
-    api_hash=api_hash,
-    bot_token=bot_token)
+    "CW",
+    bot_token=os.environ.get("BOT_TOKEN"),
+    api_id=int(os.environ.get("API_ID")),
+    api_hash=os.environ.get("API_HASH")
+)
 
 
 @bot.on_message(filters.command(["start"]))
