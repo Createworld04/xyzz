@@ -26,7 +26,7 @@ async def start(bot, update):
                               "**NOW:-** "
                                        
                                        "Press **/login** to continue..\n\n"
-                                     "Bot made by **ACE**" )
+                                     "Bot made by **@MR_ALPHA_SIR1**" )
 
 ACCOUNT_ID = "6206459123001"
 BCOV_POLICY = "BCpkADawqM1474MvKwYlMRZNBPoqkJY-UWm7zE1U769d5r5kqTjG0v8L-THXuVZtdIQJpfMPB37L_VJQxTKeNeLO2Eac_yMywEgyV9GjFDQ2LTiT4FEiHhKAUvdbx9ku6fGnQKSMB8J5uIDd"
