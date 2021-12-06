@@ -5,7 +5,7 @@
 
     "description": "A Modular telegram bot.",
 
-    "repository": "https://github.com/imacekun/Nekkoto",
+    "repository": "https://github.com/adityasirohi4/mg-notes",
     "buildpacks":[
         {
             "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git"
