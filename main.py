@@ -26,7 +26,7 @@ async def start(bot, update):
                               "**NOW:-** "
                                        
                                        "Press **/login** to continue..\n\n"
-                                     "Bot made by **MR ALPHA AND KiD**" )
+                                     "Bot made by **ACE**" )
 
 ACCOUNT_ID = "6206459123001"
 BCOV_POLICY = "BCpkADawqM1474MvKwYlMRZNBPoqkJY-UWm7zE1U769d5r5kqTjG0v8L-THXuVZtdIQJpfMPB37L_VJQxTKeNeLO2Eac_yMywEgyV9GjFDQ2LTiT4FEiHhKAUvdbx9ku6fGnQKSMB8J5uIDd"
@@ -47,7 +47,7 @@ info= {
 
 @bot.on_message(filters.command(["login"])& ~filters.edited)
 async def account_login(bot: Client, m: Message):
-    editable = await m.send_text(
+    editable = await m.reply_text(
         "Send **ID & Password** in this manner otherwise bot will not respond.\n\nSend like this:-  **ID*Password**"
     )
 
@@ -176,7 +176,7 @@ async def account_login(bot: Client, m: Message):
             os.remove(f"{filename}.jpg")
     except Exception as e:
         await m.reply_text(str(e))
-        await m.reply_text("Done")
+    await m.reply_text("Done")
         
         
         
@@ -203,3 +203,4 @@ async def account_login(bot: Client, m: Message):
 
 
 bot.run()
+            
