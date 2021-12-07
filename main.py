@@ -67,7 +67,7 @@ async def account_login(bot: Client, m: Message):
 
     cool=""
     for data in b_data:
-        aa=f"**{data['batchName']}** : ``{data['id']}``\n\n"
+        aa=f"**{data['batchName']}** : ```{data['id']}```\n\n"
         if len(f'{cool}{aa}')>4096:
             await m.reply_text(aa)
             cool =""
