@@ -26,7 +26,7 @@ async def start(bot, update):
                               "**NOW:-** "
                                        
                                        "Press **/login** to continue..\n\n"
-                                     "Bot made by **ALPHA AND KiD**" )
+                                     "Bot made by **ALPHA AND ACE**" )
 
 ACCOUNT_ID = "6206459123001"
 BCOV_POLICY = "BCpkADawqM1474MvKwYlMRZNBPoqkJY-UWm7zE1U769d5r5kqTjG0v8L-THXuVZtdIQJpfMPB37L_VJQxTKeNeLO2Eac_yMywEgyV9GjFDQ2LTiT4FEiHhKAUvdbx9ku6fGnQKSMB8J5uIDd"
@@ -143,7 +143,7 @@ async def account_login(bot: Client, m: Message):
             #input4 = message = await bot.listen(editable.chat.id)
             #raw_text4 = input4.text
 
-            cc = f"**Title :** {lessonName}\n**Quality :** {raw_text4}\n\nBot made by **ALPHA & KiD**"
+            cc = f"**Title :** {lessonName}\n**Quality :** {raw_text4}\n\nBot made by **ALPHA & ACE**"
             Show = f"**Downloading:-**\n```{lessonName}\nQuality - {raw_text4}```\n\n**Url :-** ```{link}```"
             prog = await m.reply_text(Show)
 
