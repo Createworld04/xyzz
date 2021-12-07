@@ -26,7 +26,7 @@ async def start(bot, update):
                               "**NOW:-** "
                                        
                                        "Press **/login** to continue..\n\n"
-                                     "Bot made by **@MR_ALPHA_SIR1**" )
+                                     "Bot made by **MR ALPHA AND KiD**" )
 
 ACCOUNT_ID = "6206459123001"
 BCOV_POLICY = "BCpkADawqM1474MvKwYlMRZNBPoqkJY-UWm7zE1U769d5r5kqTjG0v8L-THXuVZtdIQJpfMPB37L_VJQxTKeNeLO2Eac_yMywEgyV9GjFDQ2LTiT4FEiHhKAUvdbx9ku6fGnQKSMB8J5uIDd"
@@ -47,7 +47,7 @@ info= {
 
 @bot.on_message(filters.command(["login"])& ~filters.edited)
 async def account_login(bot: Client, m: Message):
-    editable = await m.reply_text(
+    editable = await m.send_text(
         "Send **ID & Password** in this manner otherwise bot will not respond.\n\nSend like this:-  **ID*Password**"
     )
 
@@ -67,7 +67,7 @@ async def account_login(bot: Client, m: Message):
 
     cool=""
     for data in b_data:
-        aa=f"**{data['batchName']}** : ```{data['id']}```\n\n"
+        aa=f"**{data['batchName']}** : ``{data['id']}``\n\n"
         if len(f'{cool}{aa}')>4096:
             await m.reply_text(aa)
             cool =""
@@ -86,7 +86,7 @@ async def account_login(bot: Client, m: Message):
     for data in topicid:
         t_name=(data["topicName"])
         tid = (data["id"])
-        hh = f"**{t_name}** : ```{tid}```\n"
+        hh = f"**{t_name}** : ``{tid}``\n\n"
         
         if len(f'{cool1}{hh}')>4096:
             await m.reply_text(hh)
@@ -107,57 +107,78 @@ async def account_login(bot: Client, m: Message):
     
     url3 = "https://elearn.crwilladmin.com/api/v1/comp/batch-detail/"+raw_text2+"?redirectBy=mybatch&topicId="+raw_text3+"&token="+token   
     ff = requests.get(url3)
+    vc =ff.json()["data"]["class_list"]["batchDescription"]
+    
     vv =ff.json()["data"]["class_list"]["classes"]
     vv.reverse()
-    for data in vv:
-        vidid = (data["id"])
-        lessonName = (data["lessonName"])  
-        bcvid = (data["lessonUrl"][0]["link"])
-        #print(bcvid)
-       
-        if bcvid.startswith("62"):
-            
-            video_response = requests.get(f"{bc_url}/{bcvid}", headers=bc_hdr)
-            video = video_response.json()
-            video_source = video["sources"][5]
-            video_url = video_source["src"]
-            #print(video_url)
-                
-            surl=requests.get("https://elearn.crwilladmin.com/api/v1/livestreamToken?type=brightcove&vid="+vidid+"&token="+token)
-            stoken = surl.json()["data"]["token"]
-            #print(stoken)
-            
-            link = video_url+"&bcov_auth="+stoken
-            #print(link)
-
-        else:
-            link="https://www.youtube.com/embed/"+bcvid
-        # await m.reply_text(link)
-
-        #editable3= await m.reply_text("**Now send the Resolution**")
-        #input4 = message = await bot.listen(editable.chat.id)
-        #raw_text4 = input4.text
+    clan =f"**{vc}**\n\nNo of links found in topic-id {raw_text3} are **{len(vv)}**"
+    await m.reply_text(clan)
+    try:
+        for data in vv:
+            vidid = (data["id"])
+            lessonName = (data["lessonName"])  
+            bcvid = (data["lessonUrl"][0]["link"])
         
-        cc = f"**Title :** {lessonName}\n**Quality :** {raw_text4}"
-        Show = f"**Downloading:-**\n```{lessonName}\nQuality - {raw_text4}```\n\n**Url :-** ```{link}```"
-        prog = await m.reply_text(Show)
-
         
-        ytf=f"bestvideo[height<={raw_text4}]"
-        cmd = f'yt-dlp -o "{lessonName}.mp4" -f "{ytf}+bestaudio" "{link}"'
-        download_cmd = f"{cmd} -R 25 --fragment-retries 25 --external-downloader aria2c --downloader-args 'aria2c: -x 16 -j 32'"
-        os.system(download_cmd)
+            if bcvid.startswith("62"):
 
-        filename = f"{lessonName}.mp4"
-        subprocess.run(f'ffmpeg -i "{filename}" -ss 00:00:19 -vframes 1 "{filename}.jpg"', shell=True)
-        thumbnail = f"{filename}.jpg"
+                video_response = requests.get(f"{bc_url}/{bcvid}", headers=bc_hdr)
+                video = video_response.json()
+                video_source = video["sources"][5]
+                video_url = video_source["src"]
+                #print(video_url)
+
+                surl=requests.get("https://elearn.crwilladmin.com/api/v1/livestreamToken?type=brightcove&vid="+vidid+"&token="+token)
+                stoken = surl.json()["data"]["token"]
+                #print(stoken)
+
+                link = video_url+"&bcov_auth="+stoken
+                #print(link)
+
+            else:
+                link="https://www.youtube.com/embed/"+bcvid
+            # await m.reply_text(link)
+
+            #editable3= await m.reply_text("**Now send the Resolution**")
+            #input4 = message = await bot.listen(editable.chat.id)
+            #raw_text4 = input4.text
+
+            cc = f"**Title :** {lessonName}\n**Quality :** {raw_text4}\n\nBot made by **ACE**"
+            Show = f"**Downloading:-**\n```{lessonName}\nQuality - {raw_text4}```\n\n**Url :-** ```{link}```"
+            prog = await m.reply_text(Show)
+
+            if "youtu" in link:
+                if raw_text4 in ["144", "240", "480"]:
+                    ytf = f"'bestvideo[height<={raw_text4}][ext=mp4]+bestaudio[ext=m4a]'"
+                elif raw_text4 == "360":
+                    ytf = 18
+                elif raw_text4 == "720":
+                    ytf = 22
+                else:
+                    ytf = 18
+            else:
+                ytf=f"bestvideo[height<={raw_text4}]"
+
+
+            cmd = f'yt-dlp -o "{lessonName}.mp4" -f "{ytf}+bestaudio" "{link}"'
+            download_cmd = f"{cmd} -R 25 --fragment-retries 25 --external-downloader aria2c --downloader-args 'aria2c: -x 16 -j 32'"
+            os.system(download_cmd)
+
+            filename = f"{lessonName}.mp4"
+            subprocess.run(f'ffmpeg -i "{filename}" -ss 00:00:19 -vframes 1 "{filename}.jpg"', shell=True)
+            thumbnail = f"{filename}.jpg"
+
+            dur = int(helper.duration(filename))
+
+            await m.reply_video(f"{lessonName}.mp4",caption=cc, supports_streaming=True,height=720,width=1280,thumb=thumbnail,duration=dur)
+            os.remove(f"{lessonName}.mp4")
+            await prog.delete (True)
+            os.remove(f"{filename}.jpg")
+    except Exception as e:
+        await m.reply_text(str(e))
+    await m.reply_text("Done")
         
-        dur = int(helper.duration(filename))
-
-        await m.reply_video(f"{lessonName}.mp4",caption=cc, supports_streaming=True,height=720,width=1280,thumb=thumbnail,duration=dur)
-        os.remove(f"{lessonName}.mp4")
-        await prog.delete (True)
-        os.remove(f"{filename}.jpg")
+        
         
 
 
