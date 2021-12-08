@@ -26,7 +26,7 @@ async def start(bot, update):
                               "**NOW:-** "
                                        
                                        "Press **/login** to continue..\n\n"
-                                     "Bot made by **ALPHA AND ACE**" )
+                                     "Bot made by **ALPHA & ACE**")
 
 ACCOUNT_ID = "6206459123001"
 BCOV_POLICY = "BCpkADawqM1474MvKwYlMRZNBPoqkJY-UWm7zE1U769d5r5kqTjG0v8L-THXuVZtdIQJpfMPB37L_VJQxTKeNeLO2Eac_yMywEgyV9GjFDQ2LTiT4FEiHhKAUvdbx9ku6fGnQKSMB8J5uIDd"
@@ -60,14 +60,14 @@ async def account_login(bot: Client, m: Message):
     login_response=requests.post(url+"login-other",info)
     token=login_response.json( )["data"]["token"]
     await editable.edit("**login Successful**")
-    await editable.edit("You have these Batches :-\n\n**Batch Name : Batch ID**")
+    await editable.edit("You have these Batches :-")
     
     url1 = requests.get("https://elearn.crwilladmin.com/api/v1/comp/my-batch?&token="+token)
     b_data = url1.json()['data']['batchData']
 
     cool=""
     for data in b_data:
-        aa=f"**{data['batchName']}** : ```{data['id']}```\n\n"
+        aa=f"**Batch Name -** {data['batchName']}\n**Batch ID -** ```{data['id']}```\n**By -** {data['instructorName']}\n\n"
         if len(f'{cool}{aa}')>4096:
             await m.reply_text(aa)
             cool =""
@@ -81,18 +81,29 @@ async def account_login(bot: Client, m: Message):
 # topic id url = https://elearn.crwilladmin.com/api/v1/comp/batch-topic/881?type=class&token=d76fce74c161a264cf66b972fd0bc820992fe576
     url2 = requests.get("https://elearn.crwilladmin.com/api/v1/comp/batch-topic/"+raw_text2+"?type=class&token="+token)
     topicid = url2.json()["data"]["batch_topic"]
-    await m.reply_text("**Topic Name : Topic ID are :**")
+    bn =url2.json()["data"]["batch_detail"]["name"]
+    await m.reply_text(f'Batch details of **{bn}** are :')
     cool1 = ""
     for data in topicid:
         t_name=(data["topicName"])
         tid = (data["id"])
-        hh = f"**{t_name}** : ```{tid}```\n"
+        
+        urlx = "https://elearn.crwilladmin.com/api/v1/comp/batch-detail/"+raw_text2+"?redirectBy=mybatch&topicId="+tid+"&token="+token
+        ffx = requests.get(urlx)
+        vcx =ffx.json()["data"]["class_list"]["batchDescription"]
+        vvx =ffx.json()["data"]["class_list"]["classes"]
+        vvx.reverse()
+        zz= len(vvx)
+        
+       
+        hh = f"**Topic -** {t_name}\n**Topic ID - ** ```{tid}```\nno. of videos are : {zz}\n\n"
         
         if len(f'{cool1}{hh}')>4096:
             await m.reply_text(hh)
             cool1=""
         cool1+=hh
     await m.reply_text(cool1)
+    await m.reply_text(f'**{vcx}**')
 
     editable2= await m.reply_text("**Now send the Topic ID to Download**")
     input3 = message = await bot.listen(editable.chat.id)
@@ -107,12 +118,13 @@ async def account_login(bot: Client, m: Message):
     
     url3 = "https://elearn.crwilladmin.com/api/v1/comp/batch-detail/"+raw_text2+"?redirectBy=mybatch&topicId="+raw_text3+"&token="+token   
     ff = requests.get(url3)
-    vc =ff.json()["data"]["class_list"]["batchDescription"]
+    #vc =ff.json()["data"]["class_list"]["batchDescription"]
+    mm = ff.json()["data"]["class_list"]["batchName"]
     
     vv =ff.json()["data"]["class_list"]["classes"]
     vv.reverse()
-    clan =f"**{vc}**\n\nNo of links found in topic-id {raw_text3} are **{len(vv)}**"
-    await m.reply_text(clan)
+    #clan =f"**{vc}**\n\nNo of links found in topic-id {raw_text3} are **{len(vv)}**"
+    #await m.reply_text(clan)
     try:
         for data in vv:
             vidid = (data["id"])
@@ -121,20 +133,22 @@ async def account_login(bot: Client, m: Message):
         
         
             if bcvid.startswith("62"):
+                try:
+                    video_response = requests.get(f"{bc_url}/{bcvid}", headers=bc_hdr)
+                    video = video_response.json()
+                    video_source = video["sources"][5]
+                    video_url = video_source["src"]
+                    #print(video_url)
 
-                video_response = requests.get(f"{bc_url}/{bcvid}", headers=bc_hdr)
-                video = video_response.json()
-                video_source = video["sources"][5]
-                video_url = video_source["src"]
-                #print(video_url)
+                    surl=requests.get("https://elearn.crwilladmin.com/api/v1/livestreamToken?type=brightcove&vid="+vidid+"&token="+token)
+                    stoken = surl.json()["data"]["token"]
+                    #print(stoken)
 
-                surl=requests.get("https://elearn.crwilladmin.com/api/v1/livestreamToken?type=brightcove&vid="+vidid+"&token="+token)
-                stoken = surl.json()["data"]["token"]
-                #print(stoken)
-
-                link = video_url+"&bcov_auth="+stoken
-                #print(link)
-
+                    link = video_url+"&bcov_auth="+stoken
+                    #print(link)
+                except Exception as e:
+                    await m.reply_text(str(e))
+                
             else:
                 link="https://www.youtube.com/embed/"+bcvid
             # await m.reply_text(link)
@@ -143,7 +157,7 @@ async def account_login(bot: Client, m: Message):
             #input4 = message = await bot.listen(editable.chat.id)
             #raw_text4 = input4.text
 
-            cc = f"**Title :** {lessonName}\n**Quality :** {raw_text4}\n\nBot made by **ALPHA & ACE** **NOT FOR SELLING  PURPOSE\n** "
+            cc = f"**Title :** {lessonName}\n\n**Quality :** {raw_text4}\n**Batch :** {mm}\n\nBot made by **ALPHA & ACE**\n\n VIDEO ARE NOT FOR SELLING  PURPOSE"
             Show = f"**Downloading:-**\n```{lessonName}\nQuality - {raw_text4}```\n\n**Url :-** ```{link}```"
             prog = await m.reply_text(Show)
 
@@ -203,4 +217,3 @@ async def account_login(bot: Client, m: Message):
 
 
 bot.run()
-            
