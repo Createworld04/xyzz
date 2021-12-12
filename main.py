@@ -6,8 +6,10 @@ import helper
 from pyromod import listen
 from pyrogram.types import Message
 import pyrogram
+import logging
 from pyrogram import Client, filters
-
+from subprocess import getstatusoutput
+import re
 from pyrogram.types import User, Message
 import os
 
@@ -18,6 +20,12 @@ bot = Client(
     api_id=int(os.environ.get("API_ID")),
     api_hash=os.environ.get("API_HASH")
 )
+
+logger = logging.getLogger()
+thumb = os.environ.get("THUMB")
+if thumb.startswith("http://") or thumb.startswith("https://"):
+    getstatusoutput(f"wget '{thumb}' -O 'thumb.jpg'")
+    thumb = "thumb.jpg"
 
 
 @bot.on_message(filters.command(["start"]))
@@ -112,6 +120,18 @@ async def account_login(bot: Client, m: Message):
     editable3= await m.reply_text("**Now send the Resolution**")
     input4 = message = await bot.listen(editable.chat.id)
     raw_text4 = input4.text
+
+    # editable4= await m.reply_text("Now send the **Thumb url** or send **no**")
+    # input6 = message = await bot.listen(editable.chat.id)
+    # raw_text6 = input6.text
+
+    # thumb = input6.text
+    # if thumb.startswith("http://") or thumb.startswith("https://"):
+    #     getstatusoutput(f"wget '{thumb}' -O 'thumb.jpg'")
+    #     thumb = "thumb.jpg"
+    # else:
+    #     thumb == "no"
+
     
     
     #gettting all json with diffrent topic id https://elearn.crwilladmin.com/api/v1/comp/batch-detail/881?redirectBy=mybatch&topicId=2324&token=d76fce74c161a264cf66b972fd0bc820992fe57
@@ -125,12 +145,13 @@ async def account_login(bot: Client, m: Message):
     vv.reverse()
     #clan =f"**{vc}**\n\nNo of links found in topic-id {raw_text3} are **{len(vv)}**"
     #await m.reply_text(clan)
+    count = 1
     try:
         for data in vv:
             vidid = (data["id"])
-            lessonName = (data["lessonName"])  
+            lessonName = (data["lessonName"]) 
             bcvid = (data["lessonUrl"][0]["link"])
-        
+            
         
             if bcvid.startswith("62"):
                 try:
@@ -147,7 +168,7 @@ async def account_login(bot: Client, m: Message):
                     link = video_url+"&bcov_auth="+stoken
                     #print(link)
                 except Exception as e:
-                    await m.reply_text(str(e))
+                    print(str(e))
                 
             else:
                 link="https://www.youtube.com/embed/"+bcvid
@@ -157,7 +178,7 @@ async def account_login(bot: Client, m: Message):
             #input4 = message = await bot.listen(editable.chat.id)
             #raw_text4 = input4.text
 
-            cc = f"**Title :** {lessonName}\n\n**Quality :** {raw_text4}\n**Batch :** {mm}\n\nBot made by **ALPHA & ACE**\n\n VIDEO ARE NOT FOR SELLING  PURPOSE"
+            cc = f"**{count}) Title :** {lessonName}\n\n**Quality :** {raw_text4}\n**Batch :** {mm}\n\nBot made by **ALPHA & ACE**"
             Show = f"**Downloading:-**\n```{lessonName}\nQuality - {raw_text4}```\n\n**Url :-** ```{link}```"
             prog = await m.reply_text(Show)
 
@@ -173,21 +194,39 @@ async def account_login(bot: Client, m: Message):
             else:
                 ytf=f"bestvideo[height<={raw_text4}]"
 
+            try:
+                
+                
+                cmd = f'yt-dlp -o "{lessonName}.mp4" -f "{ytf}+bestaudio" "{link}"'
+                download_cmd = f"{cmd} -R 25 --fragment-retries 25 --external-downloader aria2c --downloader-args 'aria2c: -x 16 -j 32'"
+                os.system(download_cmd)
+            
 
-            cmd = f'yt-dlp -o "{lessonName}.mp4" -f "{ytf}+bestaudio" "{link}"'
-            download_cmd = f"{cmd} -R 25 --fragment-retries 25 --external-downloader aria2c --downloader-args 'aria2c: -x 16 -j 32'"
-            os.system(download_cmd)
+                filename = f"{lessonName}.mp4"
+                subprocess.run(f'ffmpeg -i "{filename}" -ss 00:00:19 -vframes 1 "{filename}.jpg"', shell=True)
+                
+                
+                # thumbnail = f"{filename}.jpg"
+                try:
+                    if thumb == "":
+                        thumbnail = f"{filename}.jpg"
+                    else:
+                        thumbnail = thumb
+                except Exception as e:
+                    print(e)
 
-            filename = f"{lessonName}.mp4"
-            subprocess.run(f'ffmpeg -i "{filename}" -ss 00:00:19 -vframes 1 "{filename}.jpg"', shell=True)
-            thumbnail = f"{filename}.jpg"
 
-            dur = int(helper.duration(filename))
 
-            await m.reply_video(f"{lessonName}.mp4",caption=cc, supports_streaming=True,height=720,width=1280,thumb=thumbnail,duration=dur)
-            os.remove(f"{lessonName}.mp4")
-            await prog.delete (True)
-            os.remove(f"{filename}.jpg")
+                dur = int(helper.duration(filename))
+
+                await m.reply_video(f"{lessonName}.mp4",caption=cc, supports_streaming=True,height=720,width=1280,thumb=thumbnail,duration=dur)
+                count +=1
+                os.remove(f"{lessonName}.mp4")
+                await prog.delete (True)
+                os.remove(f"{filename}.jpg")
+            except Exception:
+                continue
+
     except Exception as e:
         await m.reply_text(str(e))
     await m.reply_text("Done")
