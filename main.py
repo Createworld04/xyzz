@@ -178,7 +178,7 @@ async def account_login(bot: Client, m: Message):
             #input4 = message = await bot.listen(editable.chat.id)
             #raw_text4 = input4.text
 
-            cc = f"**{count}) Title :** {lessonName}\n\n**Quality :** {raw_text4}\n**Batch :** {mm}\n\nBot made by **ALPHA & ACE**"
+            cc = f"**{count}) Title :** {lessonName}\n\n**Quality :** {raw_text4}\n**Batch :** {mm}\n\n**THESE VIDEOS ARE NOT FOR SELLING PURPOSE**"
             Show = f"**Downloading:-**\n```{lessonName}\nQuality - {raw_text4}```\n\n**Url :-** ```{link}```"
             prog = await m.reply_text(Show)
 
