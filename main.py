@@ -18,8 +18,7 @@ bot = Client(
     "CW",
     bot_token=5230907851:AAGLUhTbZ-LP3zBB8k9uPuzY0vY8nB6QmEo,
     api_id=7044734,
-    api_hash=3042441d631955272db1358e1d37fefb,
-)
+    api_hash=3042441d631955272db1358e1d37fefb,)
 
 logger = logging.getLogger()
 thumb = os.environ.get("THUMB")
