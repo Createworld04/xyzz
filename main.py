@@ -14,7 +14,7 @@ from pyrogram.types import User, Message
 import os
 
 import requests
-bot = Client("bot", bot_token=5377785925:AAFmJlVHryivu5LWiFrMGa3_eFBdC0vr22A, api_id=9290316, api_hash=295882ba756f8ae597640a6eadc79f8e)
+bot = Client("bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 
 logger = logging.getLogger()
 thumb = os.environ.get("THUMB")
