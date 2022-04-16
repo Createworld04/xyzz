@@ -16,9 +16,9 @@ import os
 import requests
 bot = Client(
     "CW",
-    bot_token=5230907851:AAGLUhTbZ-LP3zBB8k9uPuzY0vY8nB6QmEo,
-    api_id=7044734,
-    api_hash=3042441d631955272db1358e1d37fefb,)
+    bot_token=5377785925:AAFmJlVHryivu5LWiFrMGa3_eFBdC0vr22A,
+    api_id=9290316,
+    api_hash=295882ba756f8ae597640a6eadc79f8e,)
 
 logger = logging.getLogger()
 thumb = os.environ.get("THUMB")
