@@ -14,11 +14,17 @@ from pyrogram.types import User, Message
 import os
 
 import requests
-bot = Client("CW",
-    bot_token=5377785925:AAFmJlVHryivu5LWiFrMGa3_eFBdC0vr22A,
-    api_id=9290316,
-    api_hash=295882ba756f8ae597640a6eadc79f8e, )
+bot = Client(
 
+    "Bot",
+
+    bot_token=os.environ.get("BOT_TOKEN"),
+
+    api_id=int(os.environ.get("API_ID")),
+
+    api_hash=os.environ.get("API_HASH")
+
+)
 logger = logging.getLogger()
 thumb = os.environ.get("THUMB")
 if thumb.startswith("http://") or thumb.startswith("https://"):
