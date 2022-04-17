@@ -49,14 +49,4 @@
 
     },
 
-    "buildpacks": [
-
-        {
-
-            "url": "heroku/python"
-
-        }
-
-    ]
-
 }
