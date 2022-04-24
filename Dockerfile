@@ -9,4 +9,4 @@ RUN pip3 install -r requirements.txt
 RUN apk add --no-cache gcc libffi-dev musl-dev ffmpeg aria2 && pip install --no-cache-dir -r requirements.txt
 RUN apt install ffmpeg
 
-CMD ["python3", "main.py"]
+CMD ["python3", "mgbot.py"]
