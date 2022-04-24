@@ -1,1 +1,1 @@
-worker: python mgbot.py
+worker: python main.py
