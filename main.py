@@ -142,13 +142,13 @@ async def account_login(bot: Client, m: Message):
     
     url3 = "https://elearn.crwilladmin.com/api/v1/comp/batch-detail/"+raw_text2+"?redirectBy=mybatch&topicId="+raw_text3+"&token="+token   
     ff = requests.get(url3)
-    vc =ff.json()["data"]["class_list"]["batchDescription"]
+   # vc =ff.json()["data"]["class_list"]["batchDescription"]
     mm = ff.json()["data"]["class_list"]["batchName"]
     
     vv =ff.json()["data"]["class_list"]["classes"]
     vv.reverse()
-    clan =f"**{vc}**\n\nNo of links found in topic-id {raw_text3} are **{len(vv)}**"
-    await m.reply_text(clan)
+  #  clan =f"**{vc}**\n\nNo of links found in topic-id {raw_text3} are **{len(vv)}**"
+   # await m.reply_text(clan)
     count = 1
     try:
         for data in vv:
@@ -163,24 +163,24 @@ async def account_login(bot: Client, m: Message):
                     video = video_response.json()
                     video_source = video["sources"][5]
                     video_url = video_source["src"]
-                    print(video_url)
+                    #print(video_url)
 
                     surl=requests.get("https://elearn.crwilladmin.com/api/v1/livestreamToken?type=brightcove&vid="+vidid+"&token="+token)
                     stoken = surl.json()["data"]["token"]
-                    print(stoken)
+                    #print(stoken)
 
                     link = video_url+"&bcov_auth="+stoken
-                    print(link)
+                    #print(link)
                 except Exception as e:
                     print(str(e))
                 
             else:
                 link="https://www.youtube.com/embed/"+bcvid
-            await m.reply_text(link)
+            #await m.reply_text(link)
 
-            editable3= await m.reply_text("**Now send the Resolution**")
-            input4 = message = await bot.listen(editable.chat.id)
-            raw_text4 = input4.text
+            #editable3= await m.reply_text("**Now send the Resolution**")
+            #input4 = message = await bot.listen(editable.chat.id)
+            #raw_text4 = input4.text
 
             cc = f"**{count}) Title :** {lessonName}\n\n**Quality :** {raw_text4}\n**Batch :** {mm}\n\n**THESE VIDEOS ARE NOT FOR SELLING PURPOSE**"
             Show = f"**Downloading:-**\n```{lessonName}\nQuality - {raw_text4}```\n\n**Url :-** ```{link}```"
