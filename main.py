@@ -29,7 +29,9 @@ logger = logging.getLogger()
 thumb = os.environ.get("THUMB")
 if thumb.startswith("http://") or thumb.startswith("https://"):
     getstatusoutput(f"wget '{thumb}' -O 'thumb.jpg'")
-   thumb = "thumb.jpg"
+    thumb = "thumb.jpg"
+else:
+    thumb == "no"
 
 
 @bot.on_message(filters.command(["start"]))
