@@ -125,16 +125,16 @@ async def account_login(bot: Client, m: Message):
     input4 = message = await bot.listen(editable.chat.id)
     raw_text4 = input4.text
 
-     editable4= await m.reply_text("Now send the **Thumb url** or send **no**")
-     input6 = message = await bot.listen(editable.chat.id)
-     raw_text6 = input6.text
+    editable4= await m.reply_text("Now send the **Thumb url** or send **no**")
+    input6 = message = await bot.listen(editable.chat.id)
+    raw_text6 = input6.text
 
-     thumb = input6.text
-     if thumb.startswith("http://") or thumb.startswith("https://"):
-     getstatusoutput(f"wget '{thumb}' -O 'thumb.jpg'")
-     thumb = "thumb.jpg"
+    thumb = input6.text
+    if thumb.startswith("http://") or thumb.startswith("https://"):
+    getstatusoutput(f"wget '{thumb}' -O 'thumb.jpg'")
+    thumb = "thumb.jpg"
     else:
-       thumb == "no"
+        thumb == "no"
 
     
     
