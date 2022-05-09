@@ -129,7 +129,7 @@ async def account_login(bot: Client, m: Message):
     input6 = message = await bot.listen(editable.chat.id)
     raw_text6 = input6.text
 
-        thumb = input6.text
+    thumb = input6.text
         if thumb.startswith("http://") or thumb.startswith("https://"):
             getstatusoutput(f"wget '{thumb}' -O 'thumb.jpg'")
             thumb = "thumb.jpg"
