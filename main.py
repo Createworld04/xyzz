@@ -130,11 +130,11 @@ async def account_login(bot: Client, m: Message):
     raw_text6 = input6.text
 
     thumb = input6.text
-        if thumb.startswith("http://") or thumb.startswith("https://"):
-            getstatusoutput(f"wget '{thumb}' -O 'thumb.jpg'")
-            thumb = "thumb.jpg"
-        else:
-            thumb == "no"
+    if thumb.startswith("http://") or thumb.startswith("https://"):
+        getstatusoutput(f"wget '{thumb}' -O 'thumb.jpg'")
+        thumb = "thumb.jpg"
+    else:
+        thumb == "no"
 
     
     
